@@ -1,0 +1,371 @@
+<!-- first meth : command line
+second meth : phpmyadmin => localhost/phpmyadmin
+third meth: software mysql workbench 6.3
+
+username huwe root
+xampp phpmyadmin config.inc.php
+
+mysql -u root
+show databases;
+quit
+
+$db = new PDO($dsn , $user , $pass); itisal jdid
+
+-->
+
+<!-- dsn data source name 
+
+$dsn = 'mysql:host=localhost;dbname=products'; //data source name
+$user = 'root';
+the USer To Connect
+$pass = '';
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+);
+
+try {
+    $db = new PDO($dsn, $user, $pass);
+    // start A New Connection With PDO CLass
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $q = "INSERT INTO items (name) VALUES ('ahmadto');";
+    $db->exec($q);
+} catch (PDOException $e) {
+    echo 'Failed ' . $e->getMessage();
+}
+-->
+
+
+datatype:
+default character for int(11);
+11 element maximun byn7at fi
+
+
+char -store fixed value
+faster than varchar
+use static memory
+
+
+varchar     > store dynamic value 
+max characters v5.0.3=>255
+slower than varcharuse dynamic memory
+v5.0.3 > 
+
+
+text => store string
+
+
+BLOB  => binary large Object
+-Deal & compared DEpend On Numeric VAlue Of The Bytes
+Used to store images & Other Files
+
+
+Enum  => Enumertion
+ for radio box
+yaane fik thet 4 choices tna2e wahad menon
+opera 
+
+ Set =>  Set
+ fik te5tar meno aktar men shagle w te3rda
+ firefox,chrome,opera
+
+
+ Deal with Databases
+
+ command line
+ 1- mysql -u root
+ CTREATE DATABASE elzero;
+ show databases;
+ drop database elze;
+ DROP DATABASE IF EXISTS elz
+ (shu feydet el if exists? mishen iza sar error ma yu2af el 
+ barnemej)
+ DROP DATABASE IF EXISTS elzero;
+ CREATE DATABASE IF NOT EXISTS shop;
+ 
+ CREATE DATABASE IF NOT EXISTS elzero;
+ use elzero;    btfawtna 3laya
+ SHOW DATABASES LIKE elzero;  bi wajrine el database elzero
+
+
+ CREATE
+ DROP
+ use
+
+      exit
+
+mysql -u root
+show databases;
+
+use elzero;
+CREATE TABLE students (id int(11) ,name varchar(255),email varchar(255));
+
+//terminal
+CREATE TABLE students (
+    id int(11) ,
+    name varchar(255),
+    email varchar(255)
+    );
+// CREATE TABLE sus(
+     id int(11),
+      name varchar(255), 
+      email varchar(255)
+       );
+
+
+//iza badak tefta7o edemak
+describe students;
+ same as li tahet
+
+show columns from students;
+
+
+show fields from students; 
+
+
+-------------- 
+show table status;
+
+hay btwarjik ka table fi 3andak bel database li enta fia
+maslana: bel database elzero  fi two tables ->sus
+                                           ->students
+
+// BI WARJIK KIF ANSHA2NA EL TABLE YAANE SHU HYE EL QUERY
+SHOW CTREATE TABLE students;
+
+CREATE TABLE if not exists students (id int(11));
+
+
+drop table if exits ousama;
+
+
+
+/////////////
+
+
+mysql -u root
+show databases;
+use elzero;
+show table status;
+describe students;
+
+how to rename table?
+
+rename table s1 To new1 , s2 To new2;
+show table status
+
+
+Engine ? InnoDB
+changing table Engine
+ALTER TABLE new1 ENGINE = MYISAM;
+
+-------------------------------
+
+ALTER TABLE students ADD password varchar(255);
+bi het ekher shi by default
+
+ALTER TABLE students ADD password varchar(255) AFTER name;
+
+ALTER TABLE students ADD password varchar(255) First;
+
+
+---------------
+ALTER TABLE students drop last;
+
+iza badak tem7 men el table
+
+-----------
+ALTER TABLE students change username username varchar(255) after email;
+
+daruriiii tetkob el datatype ma3on mishen ma yetla3 error
+
+------------------
+
+alter table students change test test char(50);
+
+---------------------
+
+alter table students modify test varchar(255);
+
+-----------
+//rename table using alter
+alter table new1 rename new3;
+
+
+-----------------------------
+
+alter table students  modify email char(50) , change id userid int(11);
+
+-----
+
+alter table students  modify email varchar(255) , change userid id tinyint(1);
+
+------------
+gayyer el collation lal table kamel.....
+alter table students convert to character set utf8;
+
+----------------
+alter table students convert to character set latin1;
+
+///////////////////
+
+constraint
+yaane kuyoud,,,,
+
+el Null li btkun bel thead taba3 table m3ayan..
+hye bteje yes...
+
+alter table students modify username varchar(255) not null;
+//he bta5lia tsir no w ma ybayen shi esmo null
+
+
+//aw men el awal
+alter table students add oz varchar(255) not null;
+
+
+///video 14
+not null 
+uinque constraint methhhhhh
+unique byen7at la kaza wahde bi zet el table
+alter table students add unique(username);
+====================
+alter table students drop index username;
+
+
+alter table students add test varchar(255) not null unique;
+
+------------------------------------------
+
+
+ video 15
+ Primary key tari2et inshe2oooooooo
+
+
+ CREATE TABLE classes (
+     cid int NOT NULL PRIMARY kEY,
+     name varchar(255) UNIQUE
+ )
+
+
+aww
+second meth
+
+CREATE TABLE teachers(
+     tid int NOT NULL ,
+     name varchar(255) ,
+     PRIMARY kEY(tid)
+ )
+
+
+bel command line ===>
+
+//zido
+alter table students add Primary Key(id);
+
+//shilo
+alter table students drop Primary key;
+
+------------------
+show indexes from students
+
+bt2elak aya el Primary bi hal table w deyman bikun esmo primary mishen ma 
+yetkarar
+
+////////////////
+========================================
+video16
+foreginn key part 1
+
+
+awal melll bi elzero
+
+CREATE TABLE clients(
+ id int not null,
+ username varchar(255) unique,
+ email varchar(255) unique,
+ PRIMARY KEY(id)
+
+) ENGINE = InnoDB;
+
+tene mell bi elzero 
+ 
+CREATE TABLE orders(
+ order_id int not null,
+ price varchar(255),
+ client_id int not null ,
+ PRIMARY KEY(order_id),
+ foreign key(client_id) references clients(id)
+
+)ENGINE = InnoDB;
+==================================
+
+
+CREATE TABLE orders(
+ order_id int not null,
+ price varchar(255),
+ client_id int not null ,
+ PRIMARY KEY(order_id),
+
+)ENGINE = InnoDB;
+
+
+
+ba3da bi elzero
+// how to add foreign key manually
+
+alter table orders 
+add constraint ordering
+foreign key(client_id) references clients(id)
+on update cascade
+on delete cascade
+
+men baada fut 3a order w 3mol tlete order
+1  ahmed a@a.com
+2  samo   s@s.com 
+3   ousama  o@o.com
+-------------------------
+
+join>>
+
+select * from orders
+ join clients on
+  clients.id = orders.client_id
+   where clients.id = 1
+
+---------------------------
+
+bel Relation view lama ykun fi table esmo clients w table esmo
+order w lama ykun el oders marbutin bel parent taba3on li huwe client
+men 5ilel foreign key , lama tfut 3a el relation li bel orders
+fi shi esmo  on delete   on update w hawde bye5do 4 parameters
+
+cascade : aya tagyr bi sir bel clients bi gayer el orders
+set null : bi het null mahal shi tar w nma7a
+no action : ma bi 5alle el sha5es y3adel bel clients shi...
+restrict : same as no action
+
+///////////////////////////
+
+video 19
+
+CREATE table cards (
+    card_id int not null,
+    card_num varchar(255),
+    client_id int not null,
+    primary key(card_id),
+    foreign key(client_id) references clients(id)
+)Engine = InnoDB;
+
+
+one to one   kell sha5es 3ando visa cards wehed
+one to many  
+----------------------
+
+video 20
+
+CREATE table comments (
+    comments_id int not null,
+    comments_text varchar(255),
+    user_id int not null,
+    primary key(comments_id),
+    foreign key(user_id) references clients(id)
+)Engine = InnoDB;
