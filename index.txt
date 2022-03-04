@@ -1,40 +1,3 @@
-<!-- first meth : command line
-second meth : phpmyadmin => localhost/phpmyadmin
-third meth: software mysql workbench 6.3
-
-username huwe root
-xampp phpmyadmin config.inc.php
-
-mysql -u root
-show databases;
-quit
-
-$db = new PDO($dsn , $user , $pass); itisal jdid
-
--->
-
-<!-- dsn data source name 
-
-$dsn = 'mysql:host=localhost;dbname=products'; //data source name
-$user = 'root';
-the USer To Connect
-$pass = '';
-$options = array(
-    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-);
-
-try {
-    $db = new PDO($dsn, $user, $pass);
-    // start A New Connection With PDO CLass
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $q = "INSERT INTO items (name) VALUES ('ahmadto');";
-    $db->exec($q);
-} catch (PDOException $e) {
-    echo 'Failed ' . $e->getMessage();
-}
--->
-
-
 datatype:
 default character for int(11);
 11 element maximun byn7at fi
@@ -369,3 +332,591 @@ CREATE table comments (
     primary key(comments_id),
     foreign key(user_id) references clients(id)
 )Engine = InnoDB;
+
+
+
+////////////////////////
+
+video 21
+
+Many To Many
+
+
+CREATE table shopmember (
+    client int not null,
+    shop int not null,
+    primary key(client, shop),
+    constraint cons_clients
+    foreign key (client) references clients (id-client)
+    on delete cascade on update cascade,
+constraint cons_shop
+foreign key (shop) references website (id)
+on delete cascade on update cascade,
+
+)Engine = InnoDB;
+
+---------------------
+
+CREATE table shopmember (
+    client int not null,
+    shop int not null,
+    primary key(client, shop),
+    constraint cons_clients
+    foreign key (client) references clients (idclient)
+    on delete cascade on update cascade,
+constraint cons_shop
+foreign key (shop) references website (id)
+on delete cascade on update cascade,
+
+)Engine = InnoDB;
+
+-----------------------
+awal melll
+select * from clients join shopmember on clients.idclient = shopmember.client where shopmember.shop = 1;
+
+
+an bade kell el clients li bi aleb el google 1
+
+tene mell
+select * from website join shopmember on website.id = shopmember.shop where shopmember.client = 1;
+
+/////////////////////
+video 22
+string
+
+left(string , length)
+select left(text,2) from try;
+SELECT LEFT(username , 1) FROM clients;
+awal 7aref
+
+SELECT LEFT(username , 4) FROM clients;
+awal arba3 7ruf
+
+
+
+
+mid(string , position)
+SELECT mid(username , position , number of letter) FROM clients;
+
+
+
+
+right(string , )
+.....
+
+
+string functions
+
+----length , char_length
+
+
+length()
+select length(username) from clients;
+btjib length taba3 kell kelme
+
+select username ,length(username) from clients;
+bye3rod 3amuden
+
+select username ,length(username) AS count from clients;
+bey3ord 3amuden w bi sammi wehed menon
+
+
+char_length
+select username ,char_length(username) AS count from clients;
+
+
+what is difference between char and char_length?
+iza fi $ bel char_length bye7sbo character 1 3ade
+
+iza fi $ bel length bye7sbo 3a add el bitet tab3uno adde m5azne
+yaane btjib 3 mesh 1 (3adad el character/multibytes character)
+
+//////
+video24
+
+Upper case , lower case
+lcase() = lower
+ucase() = upper
+
+select upper(username) from clients;
+aw 
+select ucase(username) from clients;
+bi redele yehon kelon uppercase
+
+
+
+select lower(username) from clients;
+aw 
+select lcase(username) from clients;
+bi redele yehon kelon uppercase
+
+
+------------
+tartib 3adad el 7uruf men asgar kelme la akbar kelme:
+select username , char_length(username) as count from clients order by char_length(username);
+
+
+men akbar kelme la asgar kelme: DESC
+select username , char_length(username) as count from clients order by char_length(username) desc;
+
+/////////////////////
+video 25
+
+
+
+/////////
+repeat(string , number of repeats)
+replace(string , string from , string To)
+reverse(string)
+
+repeat:
+select username , repeat(username, 3)  as repeated from clients
+
+
+replace:
+select username , replace(username, 'a', '@') , as repeated from clients
+
+select username , replace(username, 'http', 'https') as repeated from clients
+
+or
+
+update clients set username = replace(username ,'http' , 'https');
+
+
+reverse:
+ 
+select username , reverse(username) as revsersed from clients
+
+or
+
+update clients set username = reverse(username);
+
+-----------------------------
+
+string functions:
+
+concat(string , string, string)
+concat_ws(separator,string,string)    : concat with separator
+
+select username , concat(username , 'added by me') as myusername from clients;
+
+select username , concat('first' , 'added by me' , 'last') as myusername from clients;
+
+////
+
+select email , username , concat('the country is', username ,'and its id is ', email) as mytextwithid from clients;
+
+natijbe : 	
+the country issam3oand its id is sam3o@gmail.com
+
+
+
+concat_ws:
+
+select email , username , concat_ws(',' ,username, 'added') as mytextwithid from clients;     
+
+iza katabta hik mala ysir shi , li2anak menak hatet shi yerbton bi baad
+
+select email , username , concat_ws(',' ,username) as mytextwithid from clients;     
+
+
+--------
+
+select email , username , concat_ws(',' ,email,username) as mytextwithid from clients;     
+
+select email , username , concat_ws(',' ,email,' ',username) as mytextwithid from clients;     
+bthet , badal space!!!!!
+
+
+kif btne7al???
+el7all:
+select email , username , concat_ws(',' ,concat(email,' '),username) as mytextwithid from clients;
+
+7all w spacetenn
+select email , username , concat_ws(',' ,concat(email,' '),concat(' ' , username)) as mytextwithid from clients;
+
+byenfa3?? ah bbyenfa333
+select email , username , concat_ws(',' ,email,repeat(username , 2)) as mytextwithid from clients;
+
+select username , email , reverse(concat(username,email)) as mytexto from clients;
+ 
+
+ ==================
+ video 27
+
+ insert(string , position , length , new string)
+
+ select username , insert(username , 2 , 2 , 'mo') from clients;
+
+select username , insert(username , 2 , 2 , 'mo') as newstring from clients;
+
+or//
+
+update clients set email = insert(email , 4, 4 ,'omar');
+
+update clients set email = insert(email , 4, 4 ,username);
+
+
+//////////////////////////////
+video28 / trim / ltrim / rtrim
+
+trim(Methods[leading | trailing | Both ] 
+[remove string] from [string]);
+-Methods optional if not written both will be used
+-remove string if not written space will be removed (default)
+
+
+awal shi by default hye btshil el spaces
+
+select username , trim(username) as textwithoutspace from clients;
+
+ex2:
+
+select username , trim(leading from username) as textwithoutspace from clients;
+
+ex3:
+
+select username , trim(trailing from username) as textwithoutspace from clients;
+
+
+ex4:
+//default ka2ana
+select username , trim(both from username) as textwithoutspace from clients;
+
+
+ex5:
+select username , trim(both from username) as textwithoutspace,
+char_length(trim(both from username)) as bothtrim from clients;
+
+
+ex6:
+
+select username , trim(both from username) as textwithoutspace,
+char_length(username) as textwithouttrim,
+char_length(trim(both from username)) as bothtrim from clients;
+
+
+ex:7
+select username , trim(leading from username) as textwithoutleadingspace,
+char_length(username) as textwithouttrim,
+char_length(trim(leading  from username)) as leadingtrim from clients;
+
+ex8:
+select username , trim(trailing '@' from username) as textwithtrim from clients;
+
+ex9:
+
+select username , rtrim(username) from clients;
+
+select username , ltrim(username) from clients;
+
+////////////////////////////
+
+video 29
+
+lpad() and rpad()
+
+lpad(string , length ,paddedstring);
+rpad(string , length ,paddedstring);
+
+ex1`: jeble awal 3 hruf men melet el shmell
+select username as maintxt , 
+lpad(username , 3,'') as textwithpadded from clients 
+
+ex2: hetele mahl li 2al men 8 @@@
+
+select username as maintxt 
+, lpad(username , 8,'@') as textwithpadded from clients;
+
+////////////////////
+
+
+video 30
+Numeric functions
+mysql numeric functions syntax
+
+
+ceil(number)
+floor(number)
+round(number , decimal)
+
+
+
+select number as mainnumber , ceil(number) as newNumber from clients;
+1,2 btsir 2 . ceil sa2ef
+
+select number as mainnumber , floor(number) as newNumber from clients;
+1,2 btsir 1 . floor ardiayhh
+
+select number as mainnumber , round(number) as newNumber from clients;
+bt2arreb lala mante2
+1,4  > 1
+1,44 > 2
+1,5 > 2 li2an el nos
+
+select number as mainnumber , round(number, 2) as newNumber from clients;
+yaane warjine ra2men men baad number
+1,2 >  1,20
+1,45  > 1,45
+1,55 > 1.55
+1,4567 > 1,46
+1,49  > 1,50
+1,49111 > 1,49
+1,5 > 1.50
+
+====================examplezzz===================
+
+video 31
+
+numeric functions / mod ,truncate , pow
+
+truncate   kate3     fadde el jadwal
+pow          power
+mod          modulos/reste
+
+
+truncate(number , decimal)
+select number as mainnumber , round(number , 3 ) as numberwithround ,
+truncate(number ,3) from clients;
+
+1,4 > 1,400
+1.806 > 1,806
+1,4445  > 1,444
+
+------ 
+pow  => power(number , powered)
+
+select pow(2,3);      8
+select pow(3,3);      27
+
+
+select number , power(number,2) from clients;
+
+------------------------
+
+Mod(number , Mod)
+
+select Mod(7,2)   > 1
+
+select number , mod(number ,2) from clients;
+
+
+////////
+
+video 32
+dates and functions
+ 
+curtime()
+current_Time()
+current_Time
+
+HH:MM:SS
+ select curtime()
+ select current_Time()
+ select current_Time
+
+
+Curdate();
+current_date()
+current_date
+YYYY-MM-DD
+
+now()
+current_timetsamp()
+current_timetsamp
+YYYY-MM-DD HH:MM:SS
+
+
+----------------------------------------
+video 33
+Dayname(date)
+dayofmonth(date)    ====> day()
+dayofweek(date)
+dayofyear(date)
+
+ex:1
+select current_date() as today , Dayname(current_date()) as todayName;
+
+ex:2
+select current_date() as today , Dayname('1996-10-23') as todayName;
+jaweb:5amis
+
+ex:3
+select id , wa2et , dayname(wa2et) from users;
+thruday 
+friday
+wednesday
+
+ex:4
+select id , wa2et , dayname(wa2et) , dayofmonth(wa2et) from users;
+
+
+ex4:
+select id , wa2et , dayname(wa2et) , dayofmonth(wa2et),
+dayofweek(wa2et), dayofyear(wa2et) from users;
+
+
+////////////////////
+video34
+
+month(date)
+monthname(date)
+hour(date)
+minute(date)
+
+select date , month(date) from users;
+select date , month(date) , monthname(date) from users;
+select date , month(date) , monthname(date) ,hour(date) from users;
+
+insert into ecom . users (id , wa2et) values ('4' , now());
+
+select date , month(date) , monthname(date) ,hour(date) from users;
+
+ex3:
+select wa2et , month(wa2et) , monthname(wa2et) from users;
+
+
+
+
+//////////////////////////////
+
+
+video 35
+DateDiff  => Date difference
+
+datediff(date1, date2)
+fare2 2eyem bas biraje3....mesh se3at
+
+
+select id , wa2et , datediff(current_date() , wa2et) as numberofdays from users;
+btjeblak add mara2 wa2et men el teri5 li enta ketbo lal yom
+
+500 days ago..
+1 year ago..
+
+select id , wa2et , datediff(now() , wa2et) as numberofdays from users;
+
+
+select id ,wa2et , concat('registred' , datediff(now() , wa2et), ' days ago') 
+as numberofdays from users;
+
+bi talle3
+
+registred 1 days ago
+registred 110 days ago
+
+video 36
+---------------
+last_day(date)
+date_add(date , interval expression timeunit)    zid
+date_sub(date , interval expression timeunit)    na2es
+
+
+select id , wa2et , last_day(wa2et) from users;
+btjebak ekher yom bel chaher
+
+
+select id , wa2et , last_day(wa2et) , dayname(last_day(wa2et)) from users;
+===========================
+
+update users SET wa2et = Date_ADD(wa2et , interval 10 DAY)
+
+//zid shaher
+update users SET wa2et = Date_ADD(wa2et , interval 1 month)
+
+
+select id , wa2et , last_day(wa2et) , dayname(last_day(wa2et)) from users;
+
+//na2es shaher
+update users SET wa2et = Date_sub(wa2et , interval 1 month)
+
+//select amd jeble last day bi hayda el sahher ma3 esmo
+select id , wa2et , last_day(wa2et), dayname(last_day(wa2et)) from users;
+
+
+
+//////////////////////////
+video 37
+comparison functions syntax
+
+between and
+
+not between and
+-------------
+between expr and expr
+
+min <= expr and  expr <= max
+
+select * from users where number between 2 and 6
+                                         expr and  expr 
+
+or  
+
+select * from users where id between 2 and 6
+
+select * from users where id between 2 and 100
+iza ma la2a bi jeble lal e5er..
+
+select * from users where wa2et between "2022-03-23" and "2022-03-24"
+
+-------------------------
+
+select * from users where wa2et
+between date_sub(current_date(), interval 2 month ) and Curdate()
+
+
+select * from users where wa2et
+between date_sub(current_date(), interval 2 year ) and Curdate()
+
+select * from users where wa2et
+between date_sub(current_date(), interval 2 month ) and Curdate()
+
+select * from users where wa2et
+between date_sub(current_date(), interval 2 year ) and Curdate()
+
+same as :
+
+select * from users where wa2et
+between '2016-12-1' AND '2016-3-3';
+
+-----------------
+ekher record
+select * from users where wa2et 
+between date_sub(current_date(), interval 10 days) and Curdate()
+//
+select * from users where wa2et not 
+between date_sub(current_date(), interval 10 days) and Curdate()
+
+-------------------------------------
+
+video 38
+
+In   
+NOt In
+
+select * from users where number in (4,5,6)
+
+
+select * from users where number not in (4,5,6)
+
+-----------------------
+
+select * from users where wa2et in ('2016-4-3','2017-3-3')
+
+select * from users where wa2et not in ('2016-4-3','2017-3-3')
+
+---------------------==============================-------
+
+
+video 39
+compare like  not like
+
+select * from users where name = 'ali';
+
+select * from users where name like 'ali';
+
+like '%xxxx'
+like 'xx%xx'
+like 'xx%'
+select * from users where name like '%l%';
+
