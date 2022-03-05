@@ -1,3 +1,9 @@
+sqlfiddle.com
+dev.mysql.com
+mysqltutorial.org 
+
+
+
 datatype:
 default character for int(11);
 11 element maximun byn7at fi
@@ -910,7 +916,8 @@ select * from users where wa2et not in ('2016-4-3','2017-3-3')
 
 video 39
 compare like  not like
-
+ %  esmo wildcard  => bte3ni ano ymkn fi ymkn la2
+ _   esmo wildcard   => 1 character 
 select * from users where name = 'ali';
 
 select * from users where name like 'ali';
@@ -918,5 +925,466 @@ select * from users where name like 'ali';
 like '%xxxx'
 like 'xx%xx'
 like 'xx%'
+like 'z%o'
+like '%a%a%'    => % bte3ni ano ymkn fi ymkn la2
 select * from users where name like '%l%';
+
+
+select * from users where name like '_mar'
+yaane aya esem byentehe bi mar w fi 7aref wehed awelo jeble yeh
+
+ex:omar yess
+ex:zmar yess
+ex:smar yess
+ex2: oomar   nooooooooooooooooooooooooooo
+
+
+-------
+
+select * from users where name like 'sa_ah'
+samah yes
+-----
+select * from users where name not like 'sa_ah'
+
+
+meth2:
+select * from users where name like '%sa_ah'
+select * from users where  not name like '%sa_ah'
+great exampleeeeee
+========================
+select * from users where name like '%_%';
+======================
+
+
+/////////////////////////////////////////
+
+
+video 40
+comparion operators
+=
+>
+<
+>=
+<=
+!=   or  <>
+select * from users where number > 1
+select * from users where number < 2
+select * from users where number >= 5
+select * from users where number <= 10
+select * from users where number <> 10
+
+
+/////////////////
+logical operators
+and && [condition + condition]
+!   not
+|| or
+xor
+
+
+select * from users where name like '%li' and number < 10;
+
+select * from users where name not like 'ali'; 
+--------------
+or
+
+select * from users where name like 'ali' or number > 100 ;
+or [a or b] aw momken yle2e el tnen
+whehed menon sah w momken el tnen
+select * from users where name not like 'ali' or number > 10;
+
+-------
+xor
+[a condition and not b condition]
+[b condition and not a condition]
+
+select * from users where name not like 'ali' xor number > 10;
+
+----------------------------------------------
+
+control flow functions
+if 
+
+syntax 
+if(condition ,  true , false)
+
+ex1:
+select id , name , if(number < 24 , 'hard luck' , 'congrats')
+ as result() from users;
+
+
+ex2:
+select id , name , if(number < 24 ,concat('hard luck',number) ,
+concat('congrats', number))
+ as result() from users;
+
+
+-------
+
+update users set numbers = if(number<1 , number + 10, number)
+
+
+---------------------
+////////////////////////////
+video 43
+case
+
+syntax
+
+case    
+    when expression = value then result
+    when expression = value then result
+    when expression = value then result
+    else result
+end
+
+case  expression
+      when value then result
+      when value then result
+      when value then result
+      else result
+end
+       
+-----------------------------------
+
+select id , name,
+case 
+ when number =  3 then 'not bad'
+ when number = 15 then  'good'
+ when number = 24 then 'perfect'
+ else 'unknown rank'
+end as result
+from users
+
+
+ex2:
+select id , name,
+case 
+ when number >  3 then 'not bad'
+ when number = 24 then 'perfect'
+ else 'unknown rank'
+end as result
+from users
+
+//////////////////////////
+tene syntaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+select id , name,
+case number
+ when 10 then 'not bad'
+ when 24 then 'perfect'
+ else 'unknown rank'
+end as result
+from users
+
+============================
+updateeeeeeeeeeeeeeeeeeeeeeeeeee
+
+update users set number =
+case number
+ when 10 then number + 1
+ when 24 then number + 15
+ else number
+end as result
+from users
+
+===============================
+
+video 44
+
+select 2 * 3
+
+select 2 + 3
+
+select 20 / 2
+
+select round(20/2)
+
+select 20 div 2 //bidun fawasel jaweba same as round
+
+select 21 % 2    jaweba 1
+
+------------------------
+
+select name , days as daysofwork , dayrate as DayRate,
+days * dayrate AS Neededmoney from users;
+
+10 * 20 = 200
+
+---------
+
+select name , days as daysofwork , dayrate as DayRate,
+(days * dayrate) + 100 AS Neededmoney from users;
+
+100 alef bonus lal shabebbbb
+
+---------------------------
+
+select name ,
+days as daysofwork ,
+dayrate as DayRate,
+(days * dayrate) AS Neededmoney ,
+(days * dayrate) + 100 as neededmoneywithbonus
+from users;
+
+----------------------------
+select name ,
+days as daysofwork ,
+dayrate as DayRate,
+(days * dayrate) AS Neededmoney ,
+(days * dayrate) + 100 as bonus ,
+(days * dayrate) + 100 - 50 as resultmoney,
+from users;
+
+
+---------------------
+
+video 45
+
+select user();   bi raje3 esem el username wel hostname
+
+select session_user();   ....................
+
+select system_user();   same as fo2
+
+-----------
+
+select version();     eseme el database w isdara
+
+select charset(user());       =>utf8  tarmiz
+
+select charset(convert(user() using latin1));   convert method 
+
+select charset(convert(user() using latin1)) as converted ;
+
+select database();      esem database
+
+
+select connection_id();     bi raje3 el connection id 
+
+////////////////////////////////////////////////////////////
+
+video46 
+group by / order / having
+
+select * from users order by name ;  abjadian abcdef....
+select * from users order by name desc ;
+
+select * from users order by name , points;
+yaane el name wel points taba3uno
+
+//Grouppppppppppppppppppppppppp
+he btejma3 el osas li metel baad
+yaane same name masalan
+
+example : ahmed + ahmed
+
+select * from users group by name;
+
+select name , points from users group by name;
+
+select name ,sum(points) from users group by name ;
+
+select name ,sum(points) from users group by name order by points;
+
+select name ,sum(points) from users group by name order by points desc ;
+
+orders:
+
+select status from orders group by status
+
+select status, count(status) how_much from orders group by status
+
+select status, count(status) how_much from orders group by status order by how_much
+
+havinggggggggggggggggg:
+
+select status, count(status) how_much from orders 
+group by status having how_much > 1
+
+------------------------------------
+
+//video 47
+
+simulation of join (multi table)
+
+
+
+CREATE TABLE langs(
+ lang_id int not null,
+ lang_name varchar(255) unique,
+ PRIMARY KEY(lang_id)
+
+) ENGINE = InnoDB;
+
+
+CREATE TABLE users(
+ user_id int not null,
+ user_name varchar(255),
+ lang_id int not null ,
+ PRIMARY KEY(user_id),
+ foreign key(lang_id) references langs(lang_id)
+
+)ENGINE = InnoDB;
+
+------
+select * from users join langs
+
+select * from users , langs
+
+----
+select * from users , langs where users.lang_id = langs.lang_id
+ 
+
+
+//////////////////////////////
+
+video 48 : aliasesss 
+------------
+
+
+error : select lang_id from users , langs where users.lang_id = langs.lang_id
+
+true : select users.lang_id 
+from users , langs where
+ users.lang_id = langs.lang_id
+
+
+ex3:
+
+true : select users.user_id,
+users.user_name,
+langs.lang_name 
+from users , langs where
+ users.lang_id = langs.lang_id
+
+-----------------------
+aliasesss
+
+
+ select
+  u.user_id,
+u.user_name,
+l.lang_name 
+from users u , langs l 
+ where
+ u.lang_id = l.lang_id
+
+
+-----------------------------------
+
+select
+u.user_id   User_id,
+u.user_name Username,
+l.lang_name Fav_lang
+from 
+users u , 
+langs l 
+where
+ u.lang_id = l.lang_id
+
+-------------------------------------
+
+video 49
+
+select
+u.user_id ,
+u.user_name ,
+l.lang_name
+from 
+users u 
+inner join 
+langs l 
+on
+ u.lang_id = l.lang_id
+
+ jawe:
+ 1: ousama   pyhton
+ 2: ali  python
+ 3 : samo  html
+ 4 : fouad  php
+
+  -------------------
+
+  select
+
+   column
+from
+  table1
+  inner join 
+  table2
+  on
+  table1.col = table2.col
+
+-----------------------------
+
+v50
+
+
+select
+u.user_id ,
+u.user_name ,
+l.lang_name
+from 
+users u 
+right join 
+langs l 
+on
+ u.lang_id = l.lang_id
+
+-----
+select
+u.user_id ,
+u.user_name ,
+l.lang_name
+from 
+users u 
+left join 
+langs l 
+on
+ u.lang_id = l.lang_id
+
+ -----------------
+
+select
+l.lang_name,
+count(l.lang_id) how_much_used
+from 
+users u  
+inner join 
+langs l 
+on
+ u.lang_id = l.lang_id
+group by 
+l.lang_id
+
+
+
+or//////////////////
+
+select
+l.lang_name,
+count(l.lang_id)
+from 
+users u  
+inner join 
+langs l 
+using
+ (lang_id)
+group by 
+l.lang_id
+
+
+
+
+
+
+
+
+////////////////
+
+video 51
+
+
+
 
