@@ -1,3 +1,62 @@
+mysql -u root
+
+show databases;
+
+use database;
+
+show databases
+
+show tables
+
+describe users;
+
+CREATE TABLE users(
+id INT AUTO_INCREMENT,
+   first_name VARCHAR(100),
+   last_name VARCHAR(100),
+   email VARCHAR(50),
+   password VARCHAR(20),
+   location VARCHAR(100),
+   dept VARCHAR(100),
+   is_admin TINYINT(1),
+   register_date DATETIME,
+   PRIMARY KEY(id)
+);
+
+
+describe users;
+
+show create table users;
+
+iza badak tzid bel table:
+ALTER TABLE students ADD password varchar(255);
+ALTER TABLE students ADD name varchar(255);
+ALTER TABLE students ADD family varchar(255);
+
+--insert
+INSERT INTO php (name,family,password) values ('Brad', 'Traversy','123456');
+
+
+
+select * from php
+
+show table status;
+
+ALTER TABLE php drop password;
+
+
+
+ALTER TABLE users change family username varchar(255);
+
+
+
+
+
+-----------------------------------
+
+
+
+
 sqlfiddle.com
 dev.mysql.com
 mysqltutorial.org 
